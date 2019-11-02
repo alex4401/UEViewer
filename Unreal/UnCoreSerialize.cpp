@@ -116,6 +116,7 @@ FArchive& FArray::Serialize(FArchive &Ar, void (*Serializer)(FArchive&, void*), 
 		Ar << AR_INDEX(Count);
 	else
 		Ar << Count;
+			appPrintf("DEBUG: TArray->Count = %d\n", Count);
 
 	if (Ar.IsLoading)
 	{

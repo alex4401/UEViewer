@@ -12,6 +12,7 @@
 
 static void SaveSound(const UObject *Obj, void *Data, int DataSize, const char *DefExt)
 {
+			appPrintf("DEBUG: SaveSound\n");
 	// check for enough place for header
 	if (DataSize < 16)
 	{
@@ -20,6 +21,7 @@ static void SaveSound(const UObject *Obj, void *Data, int DataSize, const char *
 	}
 
 	const char *ext = DefExt;
+			appPrintf("DEBUG: ext = %s\n", ext);
 
 	if (!memcmp(Data, "OggS", 4))
 		ext = "ogg";
@@ -269,29 +271,40 @@ void ExportSoundWave4(const USoundWave *Snd)
 	{
 		bulk = &Snd->CompressedFormatData[0].Data;
 		ext = *Snd->CompressedFormatData[0].FormatName; // "OGG"
+			appPrintf("DEBUG: bulk = %x\n", bulk);
+			appPrintf("DEBUG: ext = %s\n", ext);
 	}
 
 	if (bulk)
 	{
+			appPrintf("DEBUG: call SaveSound\n");
 		SaveSound(Snd, bulk->BulkData, bulk->ElementCount, ext);
 	}
 	else if (Snd->StreamingChunks.Num())
 	{
+			appPrintf("DEBUG: Snd->StreamingChunks.Num() = %d\n", Snd->StreamingChunks.Num());
 		guard(StreamedSound);
 		const char* ext = *Snd->StreamedFormat;
+			appPrintf("DEBUG: ext = %s\n", ext);
 		if (!strcmp(ext, "OPUS")) ext = "ue4opus";
+			appPrintf("DEBUG: ->ext = %s\n", ext);
 		FArchive *Ar = CreateExportArchive(Snd, 0, "%s.%s", Snd->Name, ext);
 		if (Ar)
 		{
 			for (int i = 0; i < Snd->StreamingChunks.Num(); i++)
 			{
+			appPrintf("DEBUG: chunk#%d\n", i);
 				const FStreamedAudioChunk& Chunk = Snd->StreamingChunks[i];
+			appPrintf("DEBUG: assertions...#%d\n", i);
 				assert(Chunk.DataSize >= Chunk.AudioDataSize);
 				assert(Chunk.DataSize == Chunk.Data.ElementCount);
+			appPrintf("DEBUG: assertions... passed\n");
 				// Load bulk into memory
 				Chunk.Data.SerializeData(Snd);
+			appPrintf("DEBUG: Chunk.Data.SerializeData(Snd) done\n");
 				// Export data
 				Ar->Serialize(Chunk.Data.BulkData, Chunk.AudioDataSize);
+			appPrintf("DEBUG: Serialize done\n");
 			}
 			delete Ar;
 		}
