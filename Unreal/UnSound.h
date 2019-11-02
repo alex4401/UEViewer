@@ -143,6 +143,7 @@ class USoundWave : public UObject // actual parent is USoundBase
 	DECLARE_CLASS(USoundWave, UObject);
 public:
 	bool				bStreaming;
+	bool				bReallyUseStreamingReserved;
 	FByteBulkData		RawData;
 	FGuid				CompressedDataGuid;
 	TArray<FSoundFormatData> CompressedFormatData; // FFormatContainer in UE4
@@ -161,6 +162,7 @@ public:
 		PROP_INT(NumChannels)
 		PROP_INT(SampleRate)
 		PROP_BOOL(bStreaming)
+		PROP_BOOL(bReallyUseStreamingReserved) // ARK-specific
 		PROP_DROP(bHasVirtualizeWhenSilent)
 		PROP_DROP(bVirtualizeWhenSilent)
 		PROP_DROP(Duration)
@@ -172,23 +174,42 @@ public:
 		guard(USoundWave::Serialize);
 
 		Super::Serialize(Ar);
+			appPrintf("DEBUG: USoundWave @ %d\n", Ar.Tell());
 
 		bool bCooked;
 		Ar << bCooked;
+			appPrintf("DEBUG: bCooked = %d\n", bCooked);
 
 		if (Ar.ArVer >= VER_UE4_SOUND_COMPRESSION_TYPE_ADDED && FFrameworkObjectVersion::Get(Ar) < FFrameworkObjectVersion::RemoveSoundWaveCompressionName)
 		{
 			FName DummyCompressionName;
 			Ar << DummyCompressionName;
+			appPrintf("DEBUG: DummyCompressionName = %s\n", DummyCompressionName);
 		}
 
 		bool bSupportsStreaming = true; // seems, Windows has streaming support, mobile - no
 
-		if (!bStreaming)
+                /*int unk_bool;
+                Ar << unk_bool;
+			appPrintf("DEBUG: unk_bool = %d\n", unk_bool);*/
+
+		Ar << CompressedDataGuid;
+			appPrintf("DEBUG: CompressedDataGuid = %x-%x-%x-%x\n",
+CompressedDataGuid.A,
+CompressedDataGuid.B,
+CompressedDataGuid.C,
+CompressedDataGuid.D);
+			appPrintf("DEBUG: checkpoint @ %d\n", Ar.Tell());
+			appPrintf("DEBUG: bStreaming = %d\n", bStreaming);
+			appPrintf("DEBUG: bReallyUseStreamingReserved = %d\n", bReallyUseStreamingReserved);
+
+		if (!bReallyUseStreamingReserved)
 		{
 			if (bCooked)
 			{
+				appPrintf("DEBUG: CompressedFormatData...\n");
 				Ar << CompressedFormatData;
+				appPrintf("DEBUG: CompressedFormatData done\n");
 			}
 			else
 			{
@@ -196,10 +217,12 @@ public:
 			}
 		}
 
-		Ar << CompressedDataGuid;
-
-		if (bStreaming)
+		if (bReallyUseStreamingReserved)
 		{
+			int32 unk_bool;
+			Ar << unk_bool;
+			appPrintf("DEBUG: unk_bool = %d\n", unk_bool);
+
 			int32 NumChunks;
 			FName AudioFormat;
 			Ar << NumChunks << StreamedFormat;
