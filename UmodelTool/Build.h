@@ -6,7 +6,8 @@
 #define DECLARE_VIEWER_PROPS	1
 //#define VSTUDIO_INTEGRATION		1	// improved debugging with Visual Studio
 
-//#define PRIVATE_BUILD	1
+#define PRIVATE_BUILD	1
+#define CUSTOM_BUILD_ID "aw2020"
 
 #include "GameDefines.h"
 
