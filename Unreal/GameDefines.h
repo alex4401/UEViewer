@@ -3,11 +3,11 @@
 
 // Turn on/off different engine versions support
 #ifndef UNREAL1
-#define UNREAL1			1
+#define UNREAL1			0
 #endif
 
 #ifndef UNREAL25
-#define UNREAL25		1
+#define UNREAL25		0
 #endif
 
 #ifndef UNREAL3
@@ -58,11 +58,11 @@
 */
 
 // platforms
-#define SUPPORT_XBOX360	1		// XBox360 support
-#define SUPPORT_IPHONE	1		// iPhone/iPad support
+#define SUPPORT_XBOX360	0		// XBox360 support
+#define SUPPORT_IPHONE		1		// iPhone/iPad support
 #define SUPPORT_ANDROID	1		// Android support
-#define SUPPORT_PS4		1		// Playstation 4 support
-#define SUPPORT_SWITCH	1		// Nintendo Switch support
+#define SUPPORT_PS4		0		// Playstation 4 support
+#define SUPPORT_SWITCH		0		// Nintendo Switch support
 
 #if UNREAL3
 
@@ -182,8 +182,8 @@
 
 #endif // UNREAL4
 
-#if GEARS4 || BATMAN
+//#if GEARS4 || BATMAN
 #define USE_LZ4			1		// LZ4 compression
-#endif
+//#endif
 
 #endif // __GAME_DEFINES_H__
