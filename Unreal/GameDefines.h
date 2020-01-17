@@ -19,6 +19,7 @@
 #endif
 
 // UE2 (supported by default)
+/*
 #define UT2				1
 //#define PARIAH			1		// not supported, because of major serializer incompatibility
 #define SPLINTER_CELL	1
@@ -34,8 +35,10 @@
 #define RUNE			1
 #define UNDYING			1
 #endif
+*/
 
 // requires UNREAL25
+/*
 #if UNREAL25
 #define TRIBES3			1
 #define SWAT4			1
@@ -46,10 +49,13 @@
 #define LEAD			1		// UbiSoft LEAD Engine (Splinter Cell: Conviction)
 #define EOS				1		// Echo of Soul
 #endif // UNREAL25
+*/
 
 // UE2X
+/*
 #define UC1				1
 #define UC2				1
+*/
 
 // platforms
 #define SUPPORT_XBOX360	1		// XBox360 support
@@ -60,6 +66,7 @@
 
 #if UNREAL3
 
+/*
 #define ENDWAR			1		// EndWar
 #define BIOSHOCK		1		//!! requires UNREAL3 and TRIBES3
 #define DOH				1		// Destroy All Humans
@@ -141,6 +148,7 @@
 #define MKVSDC			1		// Mortal Kombat vs. DC Universe, Mortal Kombat, Injustice: Gods Among Us
 #define STRANGLE		1		// Stranglehold
 #define TNA_IMPACT		1		// TNA iMPACT!
+*/
 
 #endif // UNREAL3
 
@@ -149,6 +157,7 @@
 
 #if UNREAL4
 
+/*
 #define GEARS4			1		// Gears of War 4
 #define DAYSGONE		1		// Days Gone
 #define TEKKEN7			1		// Tekken 7
@@ -157,7 +166,9 @@
 #define DAUNTLESS		1		// Dauntless
 #define PARAGON			1		// Paragon
 #define UT4				1		// Unreal Tournament 4
+*/
 #define ARK				1		// Ark: Survival Evolved
+/*
 #define HIT				1		// Heroes of Incredible Tales
 #define NGB				1		// New Gundam Breaker
 #define LIS2			1		// Life is Strange 2
@@ -165,6 +176,7 @@
 #define BORDERLANDS3	1		// Borderlands 3
 #define KH3				1		// Kingdom Hearts 3
 #define JEDI			1		// Star Wars Jedi: Fallen Order
+*/
 
 #define SPECIAL_TAGS	1		// games with different PACKAGE_FILE_TAG
 
